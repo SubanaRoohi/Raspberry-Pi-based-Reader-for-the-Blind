@@ -1,0 +1,48 @@
+import pytesseract
+from PIL import Image
+import pyttsx3
+
+# Function to initialize Tesseract OCR and pyttsx3 engine
+def initialize_ocr_and_speech():
+    # Set up pytesseract to use the correct path for tesseract executable
+    pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'  # Path to tesseract executable
+
+    # Initialize pyttsx3 engine for text-to-speech
+    engine = pyttsx3.init()
+    engine.setProperty('rate', 150)  # Speed of speech (adjustable)
+    engine.setProperty('volume', 1)  # Volume level (0.0 to 1.0)
+    return engine
+
+# Function to read text from an image
+def read_text_from_image(image_path):
+    # Open the image
+    image = Image.open(image_path)
+
+    # Use Tesseract to extract text from the image
+    text = pytesseract.image_to_string(image)
+    return text
+
+# Function to read the extracted text aloud
+def speak_text(engine, text):
+    if text:
+        print("Reading aloud: ", text)
+        engine.say(text)
+        engine.runAndWait()
+    else:
+        print("No text found in the image.")
+
+# Main function
+def main():
+    image_path = input("Enter the path of the image: ")
+
+    # Initialize OCR and speech engine
+    engine = initialize_ocr_and_speech()
+
+    # Extract text from the image
+    extracted_text = read_text_from_image(image_path)
+
+    # Speak the extracted text aloud
+    speak_text(engine, extracted_text)
+
+if __name__ == "__main__":
+    main()

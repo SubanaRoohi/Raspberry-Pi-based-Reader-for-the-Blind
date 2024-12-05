@@ -1,0 +1,4 @@
+sudo apt update
+sudo apt install tesseract-ocr
+sudo apt install libffi-dev
+pip install pytesseract pyttsx3 Pillow
